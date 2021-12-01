@@ -4,13 +4,11 @@ fun main() {
     val decreased = "decreased"
     val na = "N/A - no previous measurement"
 
-    fun part1(input: List<String>): Int {
-        val numbers = input.map { it.toInt() }
-
+    fun List<Int>.countIncreased(): Int {
         val collection: MutableList<Pair<Int, String>> = mutableListOf()
-        numbers.forEachIndexed { index, int ->
+        forEachIndexed { index, int ->
             val pair = if (index - 1 >= 0) {
-                if (int > numbers[index - 1])
+                if (int > this[index - 1])
                     Pair(int, increased)
                 else
                     Pair(int, decreased)
@@ -22,16 +20,34 @@ fun main() {
         return collection.count { it.second == increased }
     }
 
+    fun part1(input: List<String>): Int {
+        val numbers = input.map { it.toInt() }
+
+        return numbers.countIncreased()
+    }
+
+    fun List<Int>.groupTriple() = mapIndexed { index, int ->
+        var triple: Triple<Int, Int, Int>? = null
+        try {
+            triple = Triple(this[index - 1], this[index], this[index + 1])
+        } catch (e: Exception) {
+
+        }
+        triple
+    }.filterNotNull().map {
+        it.first + it.second + it.third
+    }
+
     fun part2(input: List<String>): Int {
         val numbers = input.map { it.toInt() }
 
-        return 0
+        return numbers.groupTriple().countIncreased()
     }
 
 // test if implementation meets criteria from the description, like:
     val testInput = readInput("Day01_test")
     check(part1(testInput) == 7)
-    check(part2(testInput) == 0)
+    check(part2(testInput) == 5)
 
     val input = readInput("Day01")
     println("Answer Part 1: ${part1(input)}")
