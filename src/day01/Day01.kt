@@ -1,3 +1,7 @@
+package day01
+
+import readInput
+
 fun main() {
 
     val increased = "increased"
@@ -45,11 +49,11 @@ fun main() {
     }
 
 // test if implementation meets criteria from the description, like:
-    val testInput = readInput("Day01_test")
+    val testInput = readInput("Day01_test", "01")
     check(part1(testInput) == 7)
     check(part2(testInput) == 5)
 
-    val input = readInput("Day01")
+    val input = readInput("Day01", "01")
     println("Answer Part 1: ${part1(input)}")
     println("Answer Part 2: ${part2(input)}")
 }
