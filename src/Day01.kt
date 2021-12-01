@@ -1,39 +1,39 @@
 fun main() {
-    fun List<Int>.findPairOfSum(sum: Int): Pair<Int, Int>? {
-        val complements = associateBy { sum - it }
-        return firstNotNullOfOrNull { number ->
-            val complement = complements[number]
-            if (complement != null) Pair(number, complement) else null
+
+    val increased = "increased"
+    val decreased = "decreased"
+    val na = "N/A - no previous measurement"
+
+    fun part1(input: List<String>): Int {
+        val numbers = input.map { it.toInt() }
+
+        val collection: MutableList<Pair<Int, String>> = mutableListOf()
+        numbers.forEachIndexed { index, int ->
+            val pair = if (index - 1 >= 0) {
+                if (int > numbers[index - 1])
+                    Pair(int, increased)
+                else
+                    Pair(int, decreased)
+            } else {
+                Pair(int, na)
+            }
+            collection.add(pair)
         }
+        return collection.count { it.second == increased }
     }
 
-    fun List<Int>.findTripleOfSum() = firstNotNullOfOrNull { x ->
-        val pair = findPairOfSum(2020 - x)
-        if (pair != null) Triple(x, pair.first, pair.second) else null
-    }
-
-    fun part1(input: List<String>): Int? {
+    fun part2(input: List<String>): Int {
         val numbers = input.map { it.toInt() }
 
-        val pair = numbers.findPairOfSum(2020)
-
-        return pair?.let { (x,y) -> x*y }
+        return 0
     }
 
-    fun part2(input: List<String>): Int? {
-        val numbers = input.map { it.toInt() }
-
-        val triple = numbers.findTripleOfSum()
-
-        return triple?.let { (x,y,z) -> x*y*z }
-    }
-
-    // test if implementation meets criteria from the description, like:
+// test if implementation meets criteria from the description, like:
     val testInput = readInput("Day01_test")
-    check(part1(testInput) == 514579)
-    check(part2(testInput) == 241861950)
+    check(part1(testInput) == 7)
+    check(part2(testInput) == 0)
 
     val input = readInput("Day01")
-    println(part1(input))
-    println(part2(input))
+    println("Answer Part 1: ${part1(input)}")
+    println("Answer Part 2: ${part2(input)}")
 }
